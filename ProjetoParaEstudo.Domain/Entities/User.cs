@@ -8,10 +8,11 @@ namespace ProjetoParaEstudo.Domain.Entities
     public class User : Entity
     {
         public User() { }
-        public User(string nome, string email)
+        public User(string nome, string email, string senha)
         {
             Nome = nome;
             Email = email;
+            Senha = senha;
             DataCadastro = DateTime.Now;
             Ativo = true;
         }
@@ -19,6 +20,7 @@ namespace ProjetoParaEstudo.Domain.Entities
         public string Nome { get; private set; }
 
         public string Email { get; private set; }
+        public string Senha { get; private set; }
 
         public bool Ativo { get; private set; }
         public DateTime DataCadastro { get; private set; }
@@ -38,6 +40,11 @@ namespace ProjetoParaEstudo.Domain.Entities
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Nome é obrigatorio");
+
+            RuleFor(p => p.Senha)
+                .NotEmpty()
+                .NotNull()
+                .WithMessage("Senha é obrigatoria");
 
             RuleFor(p => p.Email)
                 .NotEmpty()

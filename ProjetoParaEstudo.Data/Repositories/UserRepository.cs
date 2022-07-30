@@ -34,6 +34,11 @@ namespace ProjetoParaEstudo.Data.Repositories
             _context?.Dispose();
         }
 
+        public async Task<User> ObterPorEmailEPassword(string email, string senha)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email && x.Senha == senha);
+        }
+
         public async Task<User> ObterPorId(Guid id)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);

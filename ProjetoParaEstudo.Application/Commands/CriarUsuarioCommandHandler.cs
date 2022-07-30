@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using ProjetoParaEstudo.Core.Communication.Mediator;
+using ProjetoParaEstudo.Core.Interfaces;
 using ProjetoParaEstudo.Core.Messages;
 using ProjetoParaEstudo.Core.Messages.CommonMessages;
 using ProjetoParaEstudo.Domain.Entities;
@@ -13,18 +14,22 @@ namespace ProjetoParaEstudo.Application.Commands
     {
         private readonly IMediatorHandler _mediatorHandler;
         private readonly IUserRepository _userRepositopry;
+        private readonly IAutenticacaoService _autenticacaoService;
 
-        public CriarUsuarioCommandHandler(IMediatorHandler mediatorHandler, IUserRepository userRepository)
+        public CriarUsuarioCommandHandler(IMediatorHandler mediatorHandler, IUserRepository userRepository, IAutenticacaoService autenticacaoService)
         {
             _mediatorHandler = mediatorHandler;
             _userRepositopry = userRepository;
+            _autenticacaoService = autenticacaoService;
         }
 
         public async Task<bool> Handle(CriarUsuarioCommand message, CancellationToken cancellationToken)
         {
             if (!ValidarComando(message)) return false;
 
-            var user = new User(message.Nome, message.Email);
+            var senhaEncriptada = _autenticacaoService.EmcriptarSha256Hash(message.Senha);
+
+            var user = new User(message.Nome, message.Email, senhaEncriptada);
 
             var userValidation = user.ValidarSeAplicavel();
 

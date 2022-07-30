@@ -10,14 +10,16 @@ namespace ProjetoParaEstudo.Application.Commands
 {
     public class CriarUsuarioCommand : Command
     {
-        public CriarUsuarioCommand(string nome, string email)
+        public CriarUsuarioCommand(string nome, string email, string senha)
         {
             Nome = nome;
             Email = email;
+            Senha = senha;
         }
 
         public string Nome { get; private set; }
         public string Email { get; private set; }
+        public string Senha { get; private set; }
 
         public override bool EhValido()
         {
@@ -33,6 +35,11 @@ namespace ProjetoParaEstudo.Application.Commands
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Nome é obrigatorio");
+
+                RuleFor(p => p.Senha)
+                    .NotEmpty()
+                    .NotNull()
+                    .WithMessage("Senha ''r obrigatoria");
 
                 RuleFor(p => p.Email)
                     .NotEmpty()

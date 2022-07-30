@@ -11,6 +11,7 @@ namespace ProjetoParaEstudo.Domain.Repositories
         void Adicionar(User user);
         void Atualizar(User user);
         Task<User> ObterPorId(Guid id);
+        Task<User> ObterPorEmailEPassword(string email, string senha);
         Task<IEnumerable<User>> ObterTodos();
 
     }
